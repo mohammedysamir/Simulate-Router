@@ -17,8 +17,8 @@ public class Semaphore {
           if(value<0)
           {
             queue.add(D);
-            System.out.println("device "+D.getName()+"-"+D.getType()+" has arrived and waiting");
-            D.LoggingTime("device "+D.getName()+"-"+D.getType()+" has arrived and waiting");
+            System.out.println("device "+D.getname()+"-"+D.getType()+" has arrived and waiting");
+            D.LoggingTime("device "+D.getname()+"-"+D.getType()+" has arrived and waiting");
             wait();
            }
          }
