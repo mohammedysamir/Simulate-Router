@@ -4,13 +4,14 @@ import java.util.Queue;
 
 public class Semaphore {
 
-    int value = 1;
+    int value = 0;
     Queue<Device> queue = new LinkedList<>();
 
     Semaphore() {
-        value = 1;
+        value = 0;
     }
 
+    Semaphore(int v){value=v;}
     public synchronized void waiting(Device D) throws IOException, InterruptedException
         {
           value--;
@@ -20,6 +21,10 @@ public class Semaphore {
             System.out.println("device "+D.getname()+"-"+D.getType()+" has arrived and waiting");
             D.LoggingTime("device "+D.getname()+"-"+D.getType()+" has arrived and waiting");
             wait();
+           }
+           else{
+            System.out.println("device "+D.getname()+"-"+D.getType()+" has arrived");
+            D.LoggingTime("device "+D.getname()+"-"+D.getType()+" has arrived");
            }
          }
 
