@@ -32,8 +32,8 @@ public class Device extends Thread {
     }
 
     public void connect() throws IOException {
-        System.out.println("this device " + Name + "-" + type + " has been reconnected to router");
-        LoggingTime("this device " + Name + "-" + type + " has been reconnected to router");
+        System.out.println("this device " + Name + "-" + type + " has been connected to router");
+        LoggingTime("this device " + Name + "-" + type + " has been connected to router");
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -65,10 +65,11 @@ public class Device extends Thread {
 
     public void run() {
         try {
+            r.connect(this);
             this.connect();
             this.PerformActivity();
             this.disconnect();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
