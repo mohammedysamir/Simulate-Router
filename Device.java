@@ -6,13 +6,21 @@ import java.util.*;
 public class Device extends Thread {
     String Name, type;
     String[] types = { "PC", "Mobile", "Tablet", "Laptop" };
+    Router r; 
 
-    Device(String N) {
+    Device(String N, Router router) {
         Name = N;
+        this.r = router;
         // get type randomly
         Random rand = new Random();
         int indexType = rand.nextInt(4); // select random number 0-(4-1)
         type = types[indexType];
+    }
+
+    Device(Device d, Router router) {
+        this.Name = d.Name;
+        this.type = d.type;
+        this.r = router;
     }
 
     public String getname() {
@@ -27,20 +35,16 @@ public class Device extends Thread {
         System.out.println("this device " + Name + "-" + type + " has been reconnected to router");
         LoggingTime("this device " + Name + "-" + type + " has been reconnected to router");
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     public void disconnect() throws IOException {
-        System.out.println("this device " + Name + "-" + type + " has been disconnected to router");
-        LoggingTime("this device " + Name + "-" + type + " has been disconnected to router");
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("this device " + Name + "-" + type + " has been disconnected from router");
+        LoggingTime("this device " + Name + "-" + type + " has been disconnected from router");
+        r.disconnect(this);
     }
 
     public void PerformActivity() throws IOException {
@@ -61,9 +65,9 @@ public class Device extends Thread {
 
     public void run() {
         try {
-            connect();
-            PerformActivity();
-            disconnect();
+            this.connect();
+            this.PerformActivity();
+            this.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
