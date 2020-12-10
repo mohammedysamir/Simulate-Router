@@ -4,6 +4,7 @@ import java.io.IOException;
 public class Writer {
     static String log = "Log.txt";
     static String out="";
+    
     static void Write(String text) throws IOException {
         out+=text+System.lineSeparator();
         FileWriter output=new FileWriter(log);
