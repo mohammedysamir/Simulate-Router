@@ -8,21 +8,26 @@ public class Router {
 
     Router(int m) {
         maxdevice = m;
+        c = new Semaphore(maxdevice);
     }
 
-    public void connect(Device device) throws IOException, InterruptedException
- {
-   c.waiting(device);
-   if(devices.size()!=maxdevice){
-     devices.add(device);
-   }
- }
- public void disconnect(Device device){
-   for(int i=0;i<devices.size();i++){
-     if(devices.get(i)==device) devices.remove(i);
-   }
-   c.signal(device);
- }
+    public void connect(Device device) throws IOException, InterruptedException {
+        c.waiting(device);
+    }
 
+    public void disconnect(Device device) {
+        int i = devices.indexOf(device);
+        if(i>-1)devices.remove(i);
+        c.signal(device);
+    }
+
+    public void SetArray(ArrayList<Device> d) {
+        devices = d;
+    }
+
+    public void run() {
+        for (int i = 0; i < devices.size(); i++)
+            (new Thread(new Device(devices.get(i), this))).start();
+    }
 
 }
